@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="bower_components/platform/platform.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer.html">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="demo.css">
+  </head>
+  <body>
+
+    <polymer-element name="fluid-vid" attributes="type width height src">
+      <template>
+        <style>
+          :host {
+            display: block;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
+          }
+          #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          }
+        </style>
+        <template if="{{type == 'iframe'}}">
+          <iframe id="video"
+                  width="{{width}}" height="{{height}}" frameborder="0"
+                  src="{{src}}">
+          </iframe>
+        </template>
+      </template>
+      <script>
+        Polymer('fluid-vid', {
+          domReady: function() {
+            this.video = this.$.video;
+            this.style.paddingTop = this.getRatio(this.video.width,
+                                                  this.video.height);
+          },
+          getRatio: function(width, height) {
+            return ((parseInt(height, 10) / parseInt(width, 10)) * 100) + '%';
+          }
+        });
+      </script>
+    </polymer-element>
+
+    <div class="wrapper">
+      <fluid-vid type="iframe" width="500" height="281"
+                 src="http://player.vimeo.com/video/23919731">
+      </fluid-vid>
+    </div>
+
+  </body>
+</html>
